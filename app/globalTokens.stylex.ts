@@ -7,7 +7,7 @@
  *
  */
 
-import stylex from '@stylexjs/stylex';
+import stylex from "@stylexjs/stylex";
 
 /**
  * o--o o    o   o o-O-o o-o       o--o  o-o  o   o o-O-o  o-o
@@ -43,8 +43,8 @@ const MIN_FONT = {
   h5: Math.round((MIN_BASE_SIZE * MIN_SCALE) / 0.16) / 100,
   h4: Math.round((MIN_BASE_SIZE * Math.pow(MIN_SCALE, 2)) / 0.16) / 100,
   h3: Math.round((MIN_BASE_SIZE * Math.pow(MIN_SCALE, 3)) / 0.16) / 100,
-  h2: Math.round((MIN_BASE_SIZE * Math.pow(MIN_SCALE, 4)) / 0.16) / 100,
-  h1: Math.round((MIN_BASE_SIZE * Math.pow(MIN_SCALE, 5)) / 0.16) / 100,
+  h2: Math.round((MIN_BASE_SIZE * Math.pow(MIN_SCALE, 3)) / 0.16) / 100,
+  h1: Math.round((MIN_BASE_SIZE * Math.pow(MIN_SCALE, 3)) / 0.16) / 100,
 };
 // Font sizes in `rem` units
 const MAX_FONT = {
@@ -236,51 +236,56 @@ export const spacing = stylex.defineVars({
 /**
  * Color Tokens
  */
-const DARK_MODE = '@media (prefers-color-scheme: dark)';
+const DARK_MODE = "@media (prefers-color-scheme: dark)";
 
 export const globalTokens = stylex.defineVars({
   maxWidth: `${MAX_WIDTH}px`,
-  fontMono:
-    'ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace',
-  fontSans:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+  fontSans: `nunito-sans`,
 
-  foregroundR: { default: '0', [DARK_MODE]: '255' },
-  foregroundG: { default: '0', [DARK_MODE]: '255' },
-  foregroundB: { default: '0', [DARK_MODE]: '255' },
+  foregroundR: { default: "17", [DARK_MODE]: "255" },
+  foregroundG: { default: "21", [DARK_MODE]: "255" },
+  foregroundB: { default: "23", [DARK_MODE]: "255" },
 
-  bgStartRGB: { default: 'rgb(214, 219, 220)', [DARK_MODE]: 'rgb(0, 0, 0)' },
+  inputR: { default: "133", [DARK_MODE]: "133" },
+  inputG: { default: "133", [DARK_MODE]: "133" },
+  inputB: { default: "133", [DARK_MODE]: "133" },
 
-  bgEndR: { default: '255', [DARK_MODE]: '0' },
-  bgEndG: { default: '255', [DARK_MODE]: '0' },
-  bgEndB: { default: '255', [DARK_MODE]: '0' },
+  headerR: { default: "255", [DARK_MODE]: "43" },
+  headerG: { default: "255", [DARK_MODE]: "57" },
+  headerB: { default: "255", [DARK_MODE]: "69" },
 
-  calloutRGB: { default: 'rgb(238, 240, 241)', [DARK_MODE]: 'rgb(20, 20, 20)' },
+  bgStartRGB: { default: "rgb(214, 219, 220)", [DARK_MODE]: "rgb(0, 0, 0)" },
+
+  bgEndR: { default: "255", [DARK_MODE]: "0" },
+  bgEndG: { default: "255", [DARK_MODE]: "0" },
+  bgEndB: { default: "255", [DARK_MODE]: "0" },
+
+  calloutRGB: { default: "rgb(238, 240, 241)", [DARK_MODE]: "rgb(20, 20, 20)" },
   calloutRGB50: {
-    default: 'rgba(238, 240, 241, 0.5)',
-    [DARK_MODE]: 'rgba(20, 20, 20, 0.5)',
+    default: "rgba(238, 240, 241, 0.5)",
+    [DARK_MODE]: "rgba(20, 20, 20, 0.5)",
   },
 
-  calloutBorderR: { default: '172', [DARK_MODE]: '108' },
-  calloutBorderG: { default: '175', [DARK_MODE]: '108' },
-  calloutBorderB: { default: '176', [DARK_MODE]: '108' },
+  calloutBorderR: { default: "172", [DARK_MODE]: "108" },
+  calloutBorderG: { default: "175", [DARK_MODE]: "108" },
+  calloutBorderB: { default: "176", [DARK_MODE]: "108" },
 
-  cardR: { default: '180', [DARK_MODE]: '100' },
-  cardG: { default: '185', [DARK_MODE]: '100' },
-  cardB: { default: '188', [DARK_MODE]: '100' },
+  cardR: { default: "180", [DARK_MODE]: "100" },
+  cardG: { default: "185", [DARK_MODE]: "100" },
+  cardB: { default: "188", [DARK_MODE]: "100" },
 
-  cardBorderR: { default: '131', [DARK_MODE]: '200' },
-  cardBorderG: { default: '134', [DARK_MODE]: '200' },
-  cardBorderB: { default: '135', [DARK_MODE]: '200' },
+  cardBorderR: { default: "131", [DARK_MODE]: "200" },
+  cardBorderG: { default: "134", [DARK_MODE]: "200" },
+  cardBorderB: { default: "135", [DARK_MODE]: "200" },
 
   primaryGlow: {
     default:
-      'conic-gradient(from 180deg at 50% 50%, #16abff33 0deg, #0885ff33 55deg, #54d6ff33 120deg, #0071ff33 160deg, transparent 360deg)',
-    [DARK_MODE]: 'radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0))',
+      "conic-gradient(from 180deg at 50% 50%, #16abff33 0deg, #0885ff33 55deg, #54d6ff33 120deg, #0071ff33 160deg, transparent 360deg)",
+    [DARK_MODE]: "radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0))",
   },
   secondaryGlow: {
-    default: 'radial-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))',
+    default: "radial-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))",
     [DARK_MODE]:
-      'linear-gradient(to bottom right, rgba(1, 65, 255, 0), rgba(1, 65, 255, 0), rgba(1, 65, 255, 0.3))',
+      "linear-gradient(to bottom right, rgba(1, 65, 255, 0), rgba(1, 65, 255, 0), rgba(1, 65, 255, 0.3))",
   },
 });

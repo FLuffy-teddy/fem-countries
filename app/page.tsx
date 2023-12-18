@@ -7,171 +7,108 @@
  *
  */
 
-import stylex from '@stylexjs/stylex';
-import Card from './Card';
-import { globalTokens as $, spacing, text } from './globalTokens.stylex';
+import stylex from "@stylexjs/stylex";
+import Card from "./Card";
+import { globalTokens as $, spacing, text } from "./globalTokens.stylex";
+import Image from "next/image";
+import Test from "./apiCall";
 
-const MEDIA_MOBILE = '@media (max-width: 700px)' as const;
+const MEDIA_MOBILE = "@media (max-width: 700px)" as const;
 const MEDIA_TABLET =
-  '@media (min-width: 701px) and (max-width: 1120px)' as const;
+  "@media (min-width: 701px) and (max-width: 1120px)" as const;
 
 const style = stylex.create({
   main: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    minHeight: '100vh',
-    paddingTop: spacing.xxl,
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
     paddingBottom: {
       default: spacing.xxl,
       [MEDIA_MOBILE]: spacing.md,
     },
   },
-  hero: {
-    flexGrow: 1,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    paddingLeft: spacing.xxl,
+    paddingRight: spacing.xxl,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.lg,
+    background: `rgba(${$.calloutBorderR}, ${$.calloutBorderG}, ${$.calloutBorderB}, 0.3)`,
+  },
+  modeToggle: {
+    display: "flex",
+    alignItems: "center",
+    height: "fit-content",
   },
   h1: {
-    fontSize: text.h1,
+    fontSize: text.h3,
     lineHeight: 1,
     fontFamily: $.fontSans,
     fontWeight: 400,
-    textAlign: 'center',
-    display: 'flex',
+    textAlign: "center",
+    display: "flex",
     gap: spacing.md,
-    whiteSpace: 'nowrap',
+    whiteSpace: "nowrap",
     flexDirection: {
-      default: 'row',
-      [MEDIA_MOBILE]: 'column',
-    },
-  },
-  emoji: {
-    position: 'relative',
-    fontFamily: 'sans-serif',
-    top: {
-      default: 0,
-      [MEDIA_MOBILE]: spacing.xxxs,
+      default: "row",
+      [MEDIA_MOBILE]: "column",
     },
   },
   description: {
-    display: 'inherit',
-    justifyContent: 'inherit',
-    alignItems: 'inherit',
+    display: "inherit",
+    justifyContent: "inherit",
+    alignItems: "inherit",
     fontSize: text.sm,
     maxWidth: $.maxWidth,
-    width: '100%',
+    width: "100%",
     zIndex: 2,
-    fontFamily: $.fontMono,
+    fontFamily: $.fontSans,
+    paddingLeft: spacing.xs,
   },
-  descLink: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.xxs,
-    padding: { [MEDIA_MOBILE]: spacing.sm },
-  },
-  descP: {
-    display: { [MEDIA_MOBILE]: 'flex' },
-    position: {
-      default: 'relative',
-      [MEDIA_MOBILE]: 'fixed',
-    },
-    justifyContent: { [MEDIA_MOBILE]: 'center' },
-    alignItems: { [MEDIA_MOBILE]: 'center' },
-    width: { [MEDIA_MOBILE]: '100%' },
-    margin: 0,
-    paddingInline: spacing.sm,
-    paddingTop: {
-      default: spacing.sm,
-      [MEDIA_MOBILE]: spacing.lg,
-    },
-    paddingBottom: {
-      default: spacing.sm,
-      [MEDIA_MOBILE]: spacing.md,
-    },
-    backgroundColor: $.calloutRGB50,
-    backgroundImage: {
-      default: null,
-      [MEDIA_MOBILE]: `linear-gradient(to bottom, ${$.bgStartRGB}, ${$.calloutRGB50})`,
-    },
-    borderWidth: {
-      default: '1px',
-      [MEDIA_MOBILE]: '0',
-    },
-    borderStyle: 'solid',
-    borderColor: `rgba(${$.calloutBorderR}, ${$.calloutBorderG}, ${$.calloutBorderB}, 0.3)`,
-    borderBottomColor: {
-      default: null,
-      [MEDIA_MOBILE]: `rgba(${$.calloutBorderR}, ${$.calloutBorderG}, ${$.calloutBorderB}, 0.25)`,
-    },
-    borderRadius: {
-      default: spacing.xs,
-      [MEDIA_MOBILE]: 0,
-    },
-    inset: { [MEDIA_MOBILE]: '0 0 auto' },
-  },
-  code: {
-    fontWeight: 700,
-    fontFamily: $.fontMono,
+  search: {
+    marginTop: spacing.lg,
+    marginBottom: spacing.lg,
+    width: "25%",
+    marginLeft: spacing.xxl,
+    marginRight: spacing.xxl,
+    padding: spacing.xxs,
   },
   grid: {
-    display: 'grid',
+    display: "grid",
     gridTemplateColumns: {
-      default: 'repeat(4, minmax(25%, auto))',
-      [MEDIA_MOBILE]: '1fr',
-      [MEDIA_TABLET]: 'repeat(2, 50%)',
+      default: "repeat(4, minmax(25%, auto))",
+      [MEDIA_MOBILE]: "1fr",
+      [MEDIA_TABLET]: "repeat(2, 50%)",
     },
     width: $.maxWidth,
     maxWidth: {
-      default: '100%',
+      default: "100%",
       [MEDIA_MOBILE]: 320,
     },
-    textAlign: { [MEDIA_MOBILE]: 'center' },
+    textAlign: { [MEDIA_MOBILE]: "center" },
   },
 });
 
-const HOMEPAGE = 'https://stylexjs.com';
+const HOMEPAGE = "https://stylexjs.com";
 
 export default function Home() {
   return (
     <main {...stylex.props(style.main)}>
-      <div {...stylex.props(style.description)}>
-        <p {...stylex.props(style.descP)}>
-          Get started by editing&nbsp;
-          <code {...stylex.props(style.code)}>app/page.tsx</code>
-        </p>
-      </div>
-      <div {...stylex.props(style.hero)}>
-        <h1 {...stylex.props(style.h1)}>
-          Next.js App Dir<span {...stylex.props(style.emoji)}>♥️</span>️StyleX
-        </h1>
+      <Test />
+      <div {...stylex.props(style.header)}>
+        <h1 {...stylex.props(style.h1)}>Where in the world?</h1>
+        <div {...stylex.props(style.modeToggle)}>
+          <Image width={20} height={20} src="/icon-moon.svg" alt="Light Mode" />
+          <p {...stylex.props(style.description)}>Dark Mode</p>
+        </div>
       </div>
 
-      <div {...stylex.props(style.grid)}>
-        <Card
-          body="Learn how to use StyleX to build UIs"
-          href={`${HOMEPAGE}/docs/learn/`}
-          title="Docs"
-        />
-        <Card
-          body="Browse through the StyleX API reference"
-          href={`${HOMEPAGE}/docs/api/`}
-          title="API"
-        />
-        <Card
-          body="Play with StyleX and look at the compile outputs"
-          href={`${HOMEPAGE}/playground/`}
-          title="Playground"
-        />
-        <Card
-          body="Get started with a NextJS+StyleX project"
-          href="https://github.com/nmn/nextjs-app-dir-stylex"
-          title="Templates"
-        />
-      </div>
+      <input {...stylex.props(style.search)}></input>
+
+      <div {...stylex.props(style.grid)}></div>
     </main>
   );
 }

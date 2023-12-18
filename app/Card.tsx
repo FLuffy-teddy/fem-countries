@@ -7,18 +7,29 @@
  *
  */
 
-import stylex from '@stylexjs/stylex';
-import { globalTokens as $, spacing, text } from './globalTokens.stylex';
-import { colors } from '@stylexjs/open-props/lib/colors.stylex';
-import { tokens } from './CardTokens.stylex';
+import stylex from "@stylexjs/stylex";
+import { globalTokens as $, spacing, text } from "./globalTokens.stylex";
+import { colors } from "@stylexjs/open-props/lib/colors.stylex";
+import { tokens } from "./CardTokens.stylex";
+import Image from "next/image";
 
 type Props = Readonly<{
-  title: string;
-  body: string;
   href: string;
+  flag: string;
+  name: string;
+  population: number;
+  region: string;
+  capital: string;
 }>;
 
-export default function Card({ title, body, href }: Props) {
+export default function Card({
+  href,
+  flag,
+  name,
+  population,
+  region,
+  capital,
+}: Props) {
   return (
     <a
       {...stylex.props(styles.link)}
@@ -26,51 +37,58 @@ export default function Card({ title, body, href }: Props) {
       rel="noopener noreferrer"
       target="_blank"
     >
-      <h2 {...stylex.props(styles.h2)}>
-        {title} <span {...stylex.props(styles.span)}>→</span>
-      </h2>
-      <p {...stylex.props(styles.p)}>{body}</p>
+      <Image height={100} width={100} src={flag} alt={name} />
+      <h2 {...stylex.props(styles.h2)}>{name}</h2>
+      <p {...stylex.props(styles.p)}>
+        Population <span>{population}</span>
+      </p>
+      <p {...stylex.props(styles.p)}>
+        Region <span>{region}</span>
+      </p>
+      <p {...stylex.props(styles.p)}>
+        Capital <span>{capital}</span>
+      </p>
     </a>
   );
 }
 
-type TMobile = '@media (max-width: 700px)';
+type TMobile = "@media (max-width: 700px)";
 
-const MOBILE: TMobile = '@media (max-width: 700px)' as TMobile;
-const REDUCE_MOTION = '@media (prefers-reduced-motion: reduce)' as const;
+const MOBILE: TMobile = "@media (max-width: 700px)" as TMobile;
+const REDUCE_MOTION = "@media (prefers-reduced-motion: reduce)" as const;
 
 const bgDefault = `rgba(${$.cardR}, ${$.cardG}, ${$.cardB}, 0)` as const;
 
 const styles = stylex.create({
   link: {
     display: {
-      default: 'flex',
-      [MOBILE]: 'block',
+      default: "flex",
+      [MOBILE]: "block",
     },
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flexDirection: "column",
     borderRadius: spacing.xs,
     backgroundColor: {
       default: bgDefault,
-      ':hover': `rgba(${$.cardR}, ${$.cardG}, ${$.cardB}, 0.1)`,
+      ":hover": `rgba(${$.cardR}, ${$.cardG}, ${$.cardB}, 0.1)`,
     },
     borderWidth: 1,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderColor: {
       default: `rgba(${$.cardBorderR}, ${$.cardBorderG}, ${$.cardBorderB}, 0)`,
-      ':hover': `rgba(${$.cardBorderR}, ${$.cardBorderG}, ${$.cardBorderB}, 0.1)`,
+      ":hover": `rgba(${$.cardBorderR}, ${$.cardBorderG}, ${$.cardBorderB}, 0.1)`,
     },
-    color: 'inherit',
+    color: "inherit",
     fontFamily: $.fontSans,
     padding: spacing.sm,
-    transitionProperty: 'background-color, border-color',
-    transitionDuration: '400ms',
-    textAlign: 'center',
-    textDecoration: 'none',
+    transitionProperty: "background-color, border-color",
+    transitionDuration: "400ms",
+    textAlign: "center",
+    textDecoration: "none",
     [tokens.arrowTransform]: {
-      default: 'translateX(0)',
-      ':hover': 'translateX(4px)',
+      default: "translateX(0)",
+      ":hover": "translateX(4px)",
     },
   },
   h2: {
@@ -83,21 +101,21 @@ const styles = stylex.create({
     },
   },
   span: {
-    display: 'inline-block',
-    transitionProperty: 'transform',
+    display: "inline-block",
+    transitionProperty: "transform",
     transform: tokens.arrowTransform,
     transitionDuration: {
-      default: '200ms',
-      [REDUCE_MOTION]: '0s',
+      default: "200ms",
+      [REDUCE_MOTION]: "0s",
     },
   },
   p: {
     margin: 0,
     opacity: 0.6,
     fontSize: text.p,
-    textWrap: 'balance',
+    textWrap: "balance",
     lineHeight: 1.5,
-    maxWidth: '30ch',
+    maxWidth: "30ch",
   },
   color: (color: string) => ({ color }),
   width: (width: string) => ({ width }),
