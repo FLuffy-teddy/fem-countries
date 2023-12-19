@@ -31,8 +31,8 @@ const MIN_WIDTH = 320;
 const MAX_WIDTH = 1240;
 const MIN_SCALE = 1.2;
 const MAX_SCALE = 1.333;
-const MIN_BASE_SIZE = 16;
-const MAX_BASE_SIZE = 20;
+const MIN_BASE_SIZE = 12;
+const MAX_BASE_SIZE = 18;
 
 // Font sizes in `rem` units
 const MIN_FONT = {

@@ -8,14 +8,14 @@
  */
 
 import stylex from "@stylexjs/stylex";
-import { globalTokens as $, spacing, text } from "./globalTokens.stylex";
-import { colors } from "@stylexjs/open-props/lib/colors.stylex";
+import { globalTokens as $, spacing, text } from "../globalTokens.stylex";
 import { tokens } from "./CardTokens.stylex";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = Readonly<{
-  href: string;
   flag: string;
+  flagAlt: string;
   name: string;
   population: number;
   region: string;
@@ -23,32 +23,43 @@ type Props = Readonly<{
 }>;
 
 export default function Card({
-  href,
   flag,
+  flagAlt,
   name,
   population,
   region,
   capital,
 }: Props) {
   return (
-    <a
+    <Link
       {...stylex.props(styles.link)}
-      href={href}
+      href={`/country/${name}`}
       rel="noopener noreferrer"
-      target="_blank"
+      // target="_blank"
     >
-      <Image height={100} width={100} src={flag} alt={name} />
-      <h2 {...stylex.props(styles.h2)}>{name}</h2>
-      <p {...stylex.props(styles.p)}>
-        Population <span>{population}</span>
-      </p>
-      <p {...stylex.props(styles.p)}>
-        Region <span>{region}</span>
-      </p>
-      <p {...stylex.props(styles.p)}>
-        Capital <span>{capital}</span>
-      </p>
-    </a>
+      <div {...stylex.props(styles.cardWrap)}>
+        <div {...stylex.props(styles.imageWrap)}>
+          <Image
+            height={0}
+            width={0}
+            src={flag}
+            alt={flagAlt}
+            {...stylex.props(styles.imageStyle)}
+          />
+        </div>
+
+        <h2 {...stylex.props(styles.h2)}>{name}</h2>
+        <p {...stylex.props(styles.p)}>
+          Population: <span {...stylex.props(styles.span)}>{population}</span>
+        </p>
+        <p {...stylex.props(styles.p)}>
+          Region: <span {...stylex.props(styles.span)}>{region}</span>
+        </p>
+        <p {...stylex.props(styles.p)}>
+          Capital: <span {...stylex.props(styles.span)}>{capital}</span>
+        </p>
+      </div>
+    </Link>
   );
 }
 
@@ -65,7 +76,6 @@ const styles = stylex.create({
       default: "flex",
       [MOBILE]: "block",
     },
-    alignItems: "center",
     justifyContent: "flex-start",
     flexDirection: "column",
     borderRadius: spacing.xs,
@@ -91,23 +101,54 @@ const styles = stylex.create({
       ":hover": "translateX(4px)",
     },
   },
+  cardWrap: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: `rgba(${$.calloutBorderR}, ${$.calloutBorderG}, ${$.calloutBorderB}, 0.3)`,
+    borderRadius: spacing.xxxs,
+    width: "100%",
+    alignItems: "flex-start",
+    paddingBottom: {
+      default: spacing.md,
+      [MOBILE]: spacing.sm,
+    },
+  },
+  imageStyle: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    display: "flex",
+    objectFit: "cover",
+    borderRadius: spacing.xxxs,
+  },
+  imageWrap: {
+    position: "relative",
+    width: "100%",
+    height: "138px",
+  },
   h2: {
-    color: colors.blue3,
-    fontSize: text.h4,
+    fontSize: text.h5,
     fontWeight: 600,
+    paddingLeft: {
+      default: spacing.xs,
+      [MOBILE]: spacing.xxs,
+    },
+    marginTop: {
+      default: spacing.xs,
+      [MOBILE]: spacing.xxs,
+    },
     marginBottom: {
       default: spacing.xs,
       [MOBILE]: spacing.xxs,
     },
   },
   span: {
-    display: "inline-block",
-    transitionProperty: "transform",
-    transform: tokens.arrowTransform,
-    transitionDuration: {
-      default: "200ms",
-      [REDUCE_MOTION]: "0s",
-    },
+    margin: 0,
+    opacity: 0.6,
+    fontSize: text.p,
+    textWrap: "balance",
+    lineHeight: 1.5,
+    maxWidth: "30ch",
   },
   p: {
     margin: 0,
@@ -116,6 +157,10 @@ const styles = stylex.create({
     textWrap: "balance",
     lineHeight: 1.5,
     maxWidth: "30ch",
+    paddingLeft: {
+      default: spacing.xs,
+      [MOBILE]: spacing.xxs,
+    },
   },
   color: (color: string) => ({ color }),
   width: (width: string) => ({ width }),

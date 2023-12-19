@@ -8,10 +8,8 @@
  */
 
 import stylex from "@stylexjs/stylex";
-import Card from "./Card";
-import { globalTokens as $, spacing, text } from "./globalTokens.stylex";
-import Image from "next/image";
-import Test from "./apiCall";
+import Card from "./country/page";
+import { globalTokens as $, spacing } from "./globalTokens.stylex";
 
 const MEDIA_MOBILE = "@media (max-width: 700px)" as const;
 const MEDIA_TABLET =
@@ -27,57 +25,21 @@ const style = stylex.create({
       [MEDIA_MOBILE]: spacing.md,
     },
   },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    paddingLeft: spacing.xxl,
-    paddingRight: spacing.xxl,
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.lg,
-    background: `rgba(${$.calloutBorderR}, ${$.calloutBorderG}, ${$.calloutBorderB}, 0.3)`,
-  },
-  modeToggle: {
-    display: "flex",
-    alignItems: "center",
-    height: "fit-content",
-  },
-  h1: {
-    fontSize: text.h3,
-    lineHeight: 1,
-    fontFamily: $.fontSans,
-    fontWeight: 400,
-    textAlign: "center",
-    display: "flex",
-    gap: spacing.md,
-    whiteSpace: "nowrap",
-    flexDirection: {
-      default: "row",
-      [MEDIA_MOBILE]: "column",
-    },
-  },
-  description: {
-    display: "inherit",
-    justifyContent: "inherit",
-    alignItems: "inherit",
-    fontSize: text.sm,
-    maxWidth: $.maxWidth,
-    width: "100%",
-    zIndex: 2,
-    fontFamily: $.fontSans,
-    paddingLeft: spacing.xs,
-  },
   search: {
     marginTop: spacing.lg,
     marginBottom: spacing.lg,
     width: "25%",
+    maxWidth: "320px",
     marginLeft: spacing.xxl,
     marginRight: spacing.xxl,
     padding: spacing.xxs,
+    border: "none",
+    borderRadius: spacing.xxxs,
   },
   grid: {
     display: "grid",
+    margin: "auto",
+    gridAutoRows: "1fr",
     gridTemplateColumns: {
       default: "repeat(4, minmax(25%, auto))",
       [MEDIA_MOBILE]: "1fr",
@@ -94,21 +56,41 @@ const style = stylex.create({
 
 const HOMEPAGE = "https://stylexjs.com";
 
-export default function Home() {
+export default async function Home() {
+  const data = await getData();
+  // console.log(data);
   return (
     <main {...stylex.props(style.main)}>
-      <Test />
-      <div {...stylex.props(style.header)}>
-        <h1 {...stylex.props(style.h1)}>Where in the world?</h1>
-        <div {...stylex.props(style.modeToggle)}>
-          <Image width={20} height={20} src="/icon-moon.svg" alt="Light Mode" />
-          <p {...stylex.props(style.description)}>Dark Mode</p>
-        </div>
-      </div>
-
       <input {...stylex.props(style.search)}></input>
 
-      <div {...stylex.props(style.grid)}></div>
+      <div {...stylex.props(style.grid)}>
+        {data.map((post: any, i: number) => {
+          return (
+            <Card
+              key={i}
+              flag={post.flags.svg}
+              flagAlt={post.flags.alt}
+              name={post.name.common}
+              population={post.population}
+              region={post.region}
+              capital={post.capital}
+            />
+          );
+        })}
+      </div>
     </main>
   );
+}
+
+async function getData() {
+  const res = await fetch("https://restcountries.com/v3.1/all");
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
 }
