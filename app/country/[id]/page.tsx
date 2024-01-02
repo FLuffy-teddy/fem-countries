@@ -17,13 +17,21 @@ async function getCountry(countryId: string) {
 }
 
 export default async function CountryPage({ params }: any) {
+  function numberWithCommas(x: number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   const country = await getCountry(params.id);
-  console.log(country[0].languages);
+  console.log(country);
+  const languageArray: any = Object.values(country[0].languages);
+  console.log(languageArray);
+
+  const countryPop = numberWithCommas(country[0].population);
   return (
     <div>
       <Link href="/">
         <p>
-          <span {...stylex.props(styles.reset)}></span> Back
+          <span {...stylex.props(styles.back)}></span> Back
         </p>
       </Link>
       <div {...stylex.props(styles.fifty)}>
@@ -36,31 +44,55 @@ export default async function CountryPage({ params }: any) {
             {...stylex.props(styles.imageStyle)}
           />
         </div>
-        <div {...stylex.props(styles.right)}>
-          <h1>{country[0].name.common}</h1>
-          <div {...stylex.props(styles.reset)}>
-            <h2>
-              Native Name: <span>{country[0].name.nativeName.eng.common}</span>
-            </h2>
-            <h2>
-              Population: <span>{country[0].population}</span>
-            </h2>
-            <h2>
-              Region: <span>{country[0].region}</span>
-            </h2>
-            <h2>
-              Sub Region: <span>{country[0].subregion}</span>
-            </h2>
-            <h2>
-              Capital: <span>{country[0].capital}</span>
-            </h2>
-            <h2>
-              Top Level Domain: <span>{country[0].tld[0]}</span>
-            </h2>
-            <h2>
-              Currencies: <span>{country[0].currencies.ERN.name}</span>
-            </h2>
-            <h2>Languages: </h2>
+        <div {...stylex.props(styles.right, styles.padding)}>
+          <h1 {...stylex.props(styles.title)}>{country[0].name.common}</h1>
+          <div {...stylex.props(styles.fifty)}>
+            <div {...stylex.props(styles.left)}>
+              <h2 {...stylex.props(styles.text)}>
+                Native Name:{" "}
+                <span {...stylex.props(styles.span)}>
+                  {country[0].name.nativeName.eng.common}
+                </span>
+              </h2>
+              <h2 {...stylex.props(styles.text)}>
+                Population:{" "}
+                <span {...stylex.props(styles.span)}>{countryPop}</span>
+              </h2>
+              <h2 {...stylex.props(styles.text)}>
+                Region:{" "}
+                <span {...stylex.props(styles.span)}>{country[0].region}</span>
+              </h2>
+              <h2 {...stylex.props(styles.text)}>
+                Sub Region:{" "}
+                <span {...stylex.props(styles.span)}>
+                  {country[0].subregion}
+                </span>
+              </h2>
+              <h2 {...stylex.props(styles.text)}>
+                Capital:{" "}
+                <span {...stylex.props(styles.span)}>{country[0].capital}</span>
+              </h2>
+            </div>
+            <div {...stylex.props(styles.right)}>
+              <h2 {...stylex.props(styles.text)}>
+                Top Level Domain:{" "}
+                <span {...stylex.props(styles.span)}>{country[0].tld[0]}</span>
+              </h2>
+              <h2 {...stylex.props(styles.text)}>
+                Currencies:{" "}
+                <span {...stylex.props(styles.span)}>
+                  {country[0].currencies.ERN.name}
+                </span>
+              </h2>
+              <h2 {...stylex.props(styles.text)}>
+                Languages:
+                <span>
+                  {languageArray.map((item: string, i: number) => {
+                    return <span key={i}>{item[i]}</span>;
+                  })}
+                </span>
+              </h2>
+            </div>
           </div>
         </div>
       </div>
@@ -85,14 +117,8 @@ const styles = stylex.create({
     },
     textAlign: { [MEDIA_MOBILE]: "center" },
   },
-  reset: {
+  back: {
     display: "flex",
-  },
-  span: {
-    display: "inline-block",
-    transitionProperty: "transform",
-    transform: tokens.arrowTransform,
-    transitionDuration: "200s",
   },
   p: {
     margin: 0,
@@ -120,5 +146,22 @@ const styles = stylex.create({
   right: {
     width: "90%",
     marginLeft: "auto",
+    display: "flex",
+    flexDirection: "column",
+  },
+  padding: {
+    paddingTop: spacing.xxl,
+    paddingBottom: spacing.xxl,
+  },
+  text: {
+    fontSize: text.p,
+    paddingTop: spacing.xxs,
+    paddingBottom: spacing.xxs,
+  },
+  span: {
+    color: "#d3d3d39c",
+  },
+  title: {
+    paddingBottom: spacing.md,
   },
 });
