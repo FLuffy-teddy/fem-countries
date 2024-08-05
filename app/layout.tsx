@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html {...stylex.props(styles.html, styles.reset)} lang="en">
+    <html className="min-h-full m-0 p-0 bg-slate-700" lang="en">
       <body {...stylex.props(styles.reset, styles.body)}>
         <div {...stylex.props(styles.header)}>
           <h1 {...stylex.props(styles.h1)}>Where in the world?</h1>
